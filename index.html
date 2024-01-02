@@ -8,7 +8,7 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <link rel="icon" sizes="32x32" href="imgs/llemma_square.png" />
+    <link rel="shortcut icon" href="#" />
 
     <style>
       html,
@@ -76,22 +76,6 @@
         border-bottom: 1px solid gray !important;
       }
 
-      .key-item {
-        margin-left: 2px;
-        margin-right: 2px;
-      }
-
-      .key-item::before {
-        content: ""; /* This is necessary for the pseudo-element to work */
-        display: inline-block;
-        width: 19px; /* Width of the square */
-        height: 19px; /* Height of the square */
-        margin-right: 5px; /* Space between the square and the text */
-        vertical-align: middle; /* Aligns the square with the text */
-        border: 1px solid black; /* Border around the square */
-        border-radius: 2px; /* Rounded corners */
-      }
-
       .generation {
         background-color: #3ebd66; /* Color for "Correct" */
       }
@@ -103,53 +87,6 @@
       .generation.incorrect{
         background-color: rgb(255 187 187); /* Color for "Incorrect" */
       }
-
-      .typing-cursor {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        background-color: black;
-        border-radius: 50%; /* Make it round */
-        animation: pulse 1s infinite;
-      }
-
-      .fade-in {
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out; /* 1 second fade time */
-        visibility: hidden;
-      }
-
-      .fade-in.visible {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.5);
-        }
-      }
-
-      #modelAnswer {
-        /* border: 1px solid black !important; */
-        background-color: white;
-        border-radius: 10px;
-      }
-
-      #footer-logo {
-        position: fixed; /* Fixed position - stays in the same place even if you scroll */
-        bottom: 10px; /* 10px from the bottom */
-        left: 10px; /* 10px from the left */
-        z-index: 1000; /* Ensure it appears on top of other elements */
-      }
-      #footer-logo img {
-        width: 50px; /* Adjust the width as necessary */
-        height: auto; /* Keep the logo aspect ratio */
-      }
     </style>
 
   </head>
@@ -159,8 +96,8 @@
       <div class="header row center-content">
         <div class="col text-center">
           <p style="margin-top: -10px">CruxEval EXPLORER</p>
-          <a href="#">arXiv</a> | <a href="#">Blog</a> |
-          <a href="#">🤗 Try the Model</a> | <a href="#">GitHub</a>
+          <a href="#">arXiv</a> | 
+          <a href="#">GitHub</a>
         </div>
       </div>
 
@@ -169,7 +106,6 @@
         <table class="table">
           <tr>
               <td>
-                <pre>
                 <code class="python"><pre id="problem"></pre></code>
               </td>
           </tr>
@@ -244,10 +180,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="cruxeval.js"></script>
 
-
     <script>
       $(document).ready(function () {
-        let currentPage = 1;
+        let searchParams = new URLSearchParams(window.location.search);
+        let currentPage = 1
+        if (searchParams.has("id")) {
+          currentPage = searchParams.get('id')
+        }
+      
         let currentModel = "codellama-34b"
         let currentTemp = 0.8
         let totalPages = 800;
@@ -257,7 +197,6 @@
         data = DATA
         totalPages = data.length;
         $("#totalPages").text(totalPages);
-        currentPage = 1;
         $("#currentPage").text(currentPage);
         updateData(currentPage);
         updateButtonStatus();
