@@ -63,6 +63,10 @@
         width: 200px; /* Adjust this value as per your requirement */
       }
 
+      .left-half {
+        width: 50%; /* Adjust this value as per your requirement */
+      }
+
       table tr,
       table td {
         border: none !important;
@@ -88,11 +92,15 @@
         border-radius: 2px; /* Rounded corners */
       }
 
-      .key-item.correct::before {
+      .generation {
         background-color: #3ebd66; /* Color for "Correct" */
       }
 
-      .key-item.incorrect::before {
+      .generation.correct {
+        background-color: #3ebd66; /* Color for "Correct" */
+      }
+
+      .generation.incorrect{
         background-color: rgb(255 187 187); /* Color for "Incorrect" */
       }
 
@@ -144,149 +152,57 @@
       }
     </style>
 
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script>
-      MathJax = {
-        tex: {
-          inlineMath: [
-            ["$", "$"],
-            ["\\(", "\\)"],
-          ],
-        },
-      };
-    </script>
-    <script
-      id="MathJax-script"
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
-    ></script>
   </head>
   <body>
     <div class="container">
       <!-- Header -->
       <div class="header row center-content">
         <div class="col text-center">
-          <img src="imgs/llemma_logo.png" width="300px" />
-          <p style="margin-top: -10px">SAMPLE EXPLORER</p>
+          <p style="margin-top: -10px">CruxEval EXPLORER</p>
           <a href="#">arXiv</a> | <a href="#">Blog</a> |
           <a href="#">🤗 Try the Model</a> | <a href="#">GitHub</a>
         </div>
-      </div>
-
-      <!-- Buttons -->
-      <div class="buttons text-center mb-3">
-        <button
-          type="button"
-          class="btn btn-primary"
-          data="minerva_math_algebra"
-        >
-          Algebra
-        </button>
-        <button
-          type="button"
-          class="btn btn-light"
-          data="minerva_math_counting_and_prob"
-        >
-          Counting and Probability
-        </button>
-        <button
-          type="button"
-          class="btn btn-light"
-          data="minerva_math_geometry"
-        >
-          Geometry
-        </button>
-        <button
-          type="button"
-          class="btn btn-light"
-          data="minerva_math_intermediate_algebra"
-        >
-          Intermediate Algebra
-        </button>
-        <button
-          type="button"
-          class="btn btn-light"
-          data="minerva_math_num_theory"
-        >
-          Number Theory
-        </button>
-        <button
-          type="button"
-          class="btn btn-light"
-          data="minerva_math_prealgebra"
-        >
-          Prealgebra
-        </button>
-        <button type="button" class="btn btn-light" data="minerva_math_precalc">
-          Precalculus
-        </button>
-        <button type="button" class="btn btn-light" data="gsm8k">GSM8k</button>
-        <button type="button" class="btn btn-light" data="ocw_courses">
-          OpenCourseWare
-        </button>
-        <button type="button" class="btn btn-light" data="mmlu">
-          MMLU STEM
-        </button>
-        <button type="button" class="btn btn-light" data="sat">SAT</button>
-        <!-- Add more buttons as needed -->
       </div>
 
       <!-- Scrollable Content Area -->
       <div class="scrollable-div">
         <table class="table">
           <tr>
-            <td class="left-col">
-              <b>PROBLEM SOURCE</b>
-            </td>
-            <td id="problemSource">MATH Algebra Level 1</td>
+              <td>
+                <pre>
+                <code class="python"><pre id="problem"></pre></code>
+              </td>
           </tr>
           <tr>
-            <td class="left-col"><b>QUESTION</b></td>
-            <td id="question">
-              If a drip of water is equivalent to $\frac{1}{4}$ of a milliliter,
-              how many drips are in a liter of water? Note: 1 liter = 1000
-              milliliters.
+            <td>
+              <label for="models">model:</label> 
+              <select name="model-names" id="models"> 
+                  <option value="codellama-34b">codellama-34b</option> 
+                  <option value="gpt-4-0613">gpt-4-0613</option>
+                  <option value="gpt-3.5-turbo-0613">gpt-3.5-turbo-0613</option>
+              </select>
+              &nbsp;
+              &nbsp;
+              <label for="temps">temp:</label> 
+              <select name="temps" id="temps"> 
+                  <option value="0.2">0.2</option> 
+                  <option value="0.8">0.8</option> 
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="left-half">
+              <b>CRUXEval-I</b>
+              <code class="python"><pre id="input_task"></pre></code>
+              <code class="python"><pre id="inputs"></pre></code>
             </td>
           </tr>
           <tr>
-            <td class="left-col">
-              <b
-                >LLEMMA 34B<br /><small
-                  >Answers sampled using
-                  <a href="https://arxiv.org/abs/2203.11171"
-                    >self-consistency</a
-                  >
-                  with $k=256$.</small
-                ></b
-              >
-            </td>
-            <td id="modelAnswer">
-              We know that 1 liter of water is equivalent to 1000 milliliters.
-              Since 1 milliliter is equivalent to 4 drips, we have that 1000
-              milliliters is equivalent to $4\cdot1000=4000$ drips. Therefore,
-              the answer is $\boxed{4000}$. Final Answer: The final answer is
-              $4000$.
-            </td>
-          </tr>
-          <tr class="fade-in">
-            <td class="left-col">
-              <b
-                >EVALUATION RESULT<br /><small
-                  >Automatic evaluation results are sometimes inaccurate.</small
-                ></b
-              >
-            </td>
-            <td id="result">Correct</td>
-          </tr>
-          <tr>
-            <td class="left-col">
-              <b>REFERENCE ANSWER</b>
-            </td>
-            <td id="referenceAnswer">
-              If a drip of water is equivalent to $\frac{1}{4}$ of a milliliter,
-              then $4$ drips of water must be equivalent to $1$ milliliter of
-              water. Since there are $1000$ milliliters in a liter, it follows
-              that there are $4 \times 1000 = \boxed{4000}$ drips in a liter of
-              water.
+            <td>
+              <b>CRUXEval-O</b>
+              <code class="python"><pre id="output_task"></pre></code>
+              <code class="python"><pre id="outputs"></pre></code>
             </td>
           </tr>
         </table>
@@ -302,6 +218,9 @@
         <button type="button" id="leftButton" class="btn btn-secondary">
           &lt;&lt;
         </button>
+        <button type="button" id="randButton" class="btn btn-secondary">
+          ??
+        </button>
         <button type="button" id="rightButton" class="btn btn-secondary">
           &gt;&gt;
         </button>
@@ -312,70 +231,76 @@
 
       <!-- Footer -->
       <div class="footer text-center mt-3">
-        Llemma is made possible due to compute donations from several
-        parties:<br />
-        <a href="https://stability.ai/">Stability AI</a> (training),
-        <a href="https://www.coreweave.com/">CoreWeave</a> (evaluations and
-        finetuning), the
-        <a href="https://vectorinstitute.ai/"
-          >Vector Institute for Artificial Intelligence</a
-        >, and
-        <a href="https://www.byu.edu/">Brigham Young University</a>
-        (finetuning).<br />This site is heavily inspired by the
+        The site is inspired by and based on
         <a href="https://minerva-demo.github.io">Minerva sample explorer</a>.
+        <a href="https://llemma-demo.github.io/">Llemma</a>.
       </div>
 
-      <a href="https://www.eleuther.ai/" id="footer-logo">
-        <img src="imgs/eleuther_logo.png" alt="EleutherAI" />
-      </a>
+
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="samples_gen.js"></script>
+    <script src="cruxeval.js"></script>
+
 
     <script>
       $(document).ready(function () {
         let currentPage = 1;
-        let totalPages = 4;
-        // let correctColor = "#f5f5f5";
-        let correctColor = "#B4F3BC";
-        let incorrectColor = "#FFD5D5";
+        let currentModel = "codellama-34b"
+        let currentTemp = 0.8
+        let totalPages = 800;
         let typingInterval; // outside of the function, to store the interval ID
         let isTyping = false;
-        changeSubject("minerva_math_algebra");
-
-        function changeSubject(subject) {
-          curSubject = subject;
-          data = DATA[curSubject];
-          totalPages = data.length;
-          $("#totalPages").text(totalPages);
-          currentPage = 1;
-          $("#currentPage").text(currentPage);
-          updateData(currentPage);
-          updateButtonStatus();
-        }
-
+        
+        data = DATA
+        totalPages = data.length;
+        $("#totalPages").text(totalPages);
+        currentPage = 1;
+        $("#currentPage").text(currentPage);
+        updateData(currentPage);
+        updateButtonStatus();
+    
         function updateData(idx) {
           idx = idx - 1;
-          $("#question").text(data[idx]["question"]);
-          // $(".fade-in").removeClass("visible");
-          $("#referenceAnswer").html(data[idx]["reference_answer"]);
-          $("#problemSource").text(data[idx]["problem_source"]);
-          // replace \n with <br> for model answer
-          model_answer = data[idx]["model_answer"].replace(/\n/g, "<br>");
-          $("#modelAnswer").html(model_answer);
-          if (data[idx]["result"] == "Correct") {
-            $("#result").text("✅ " + data[idx]["result"]);
-            $("#modelAnswer").css("background-color", correctColor);
-          } else {
-            $("#result").text("❌ " + data[idx]["result"]);
-            $("#modelAnswer").css("background-color", incorrectColor);
+          code = data[idx]["code"] + "\nassert f(" + data[idx]["input"] + ") == " + data[idx]["output"]; 
+          $("#problem").text(code);
+
+          $("#input_task").text("assert f(??) == " + data[idx]["output"]);
+          $("#output_task").text("assert f(" + data[idx]["input"] + ") == ??");
+
+          function getn(json) {
+            items = []
+            for (var i = 0; i < 10; i++) {
+              si = json['raw_generations']['sample_' + idx][i]
+              ci = json['raw_scored_generations']['sample_' + idx][i]? "correct" : "incorrect"
+              items.push(`<span class="generation ${ci}"> ${si} </span><br>`)
+            }
+            return items
           }
-          $(".fade-in").addClass("visible");
-          MathJax.typesetPromise();
+          fetch(`./evaluation_results/${currentModel}_temp${currentTemp}_input.json`)
+            .then((response) => response.json())
+            .then((json) => {
+              items = getn(json)
+              $("#inputs").html(items)
+            });
+          fetch(`./evaluation_results/${currentModel}_temp${currentTemp}_output.json`)
+            .then((response) => response.json())
+            .then((json) => {
+              items = getn(json)
+              $("#outputs").html(items)
+            });
+
+          
         }
+
+        function updateModels() {
+          models = ["mistral-7b", "phi-2", "codellama-13b", "codellama-34b", "deepseek-instruct-33b", "gpt-4-0613", "gpt-3.5-turbo-0613", "gpt-4-0613+cot"]
+          items = models.map(m => `<option value="${m}">${m}</option>`)
+          $('#models').html(items)
+        }
+        updateModels();
 
         function updateButtonStatus() {
           // Disable the left button if at the beginning
@@ -403,6 +328,12 @@
             updateData(currentPage);
           }
           updateButtonStatus();
+        });
+
+        $("#randButton").click(function () {
+          currentPage = Math.floor(Math.random() * totalPages) + 1;
+          $("#currentPage").text(currentPage);
+          updateData(currentPage);
         });
 
         $("#rightButton").click(function () {
@@ -440,18 +371,14 @@
           e.preventDefault(); // prevent the default action (scroll / move caret)
         });
 
-        $(".buttons button").click(function () {
-          // Revert all buttons to .btn-light class
-          $(".buttons button").removeClass("btn-primary").addClass("btn-light");
+        $("#models").change(function(){
+          currentModel = $('#models').val()
+          updateData(currentPage);
+        });
 
-          // Set the clicked button to .btn-primary class
-          $(this).removeClass("btn-light").addClass("btn-primary");
-
-          // get the "data" attribute of this
-          let subject = $(this).attr("data");
-          console.log(subject);
-
-          changeSubject(subject);
+        $("#temps").change(function(){
+          currentTemp = $('#temps').val()
+          updateData(currentPage);
         });
       });
     </script>
