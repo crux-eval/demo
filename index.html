@@ -121,8 +121,8 @@
               &nbsp;
               <label for="temps">temp:</label> 
               <select name="temps" id="temps"> 
-                  <option value="0.2">0.2</option> 
                   <option value="0.8">0.8</option> 
+                  <option value="0.2">0.2</option> 
               </select>
             </td>
           </tr>
@@ -230,13 +230,14 @@
               items = getn(json)
               $("#outputs").html(items)
             });
-
-          
         }
 
         function updateModels() {
-          models = ["mistral-7b", "phi-2", "codellama-13b", "codellama-13b+cot", 
-           "codellama-34b", "codellama-34b+cot", "deepseek-instruct-33b", "gpt-4-0613", "gpt-3.5-turbo-0613", "gpt-4-0613+cot"]
+          models = [
+           "codellama-34b", "codellama-34b+cot", "codellama-13b", "codellama-13b+cot",
+           "deepseek-instruct-33b", "deepseek-base-33b", "codetulu-2-34b",
+           "gpt-4-0613", "gpt-4-0613+cot", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-0613+cot",
+           "mistral-7b", "phi-2", "phi-1.5"]
           items = models.map(m => `<option value="${m}">${m}</option>`)
           $('#models').html(items)
         }
